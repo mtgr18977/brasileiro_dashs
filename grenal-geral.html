@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard de Análise dos Confrontos Diretos</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #1a365d;
+            --secondary-color: #2d3748;
+            --accent-color: #4299e1;
+            --background-color: #f7fafc;
+            --inter-color: #ec0000;
+            --gremio-color: #0d80bf;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--background-color);
+            color: var(--secondary-color);
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 2rem 0;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 2.5rem;
+            text-align: center;
+        }
+
+        .header p {
+            text-align: center;
+            margin: 1rem 0 0;
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(600px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .chart-card {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease;
+        }
+
+        .chart-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .chart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .chart-title {
+            font-size: 1.25rem;
+            color: var(--primary-color);
+            margin: 0;
+        }
+
+        .chart-container {
+            position: relative;
+            height: 400px;
+            width: 100%;
+        }
+
+        .summary-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            text-align: center;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--accent-color);
+            margin: 0.5rem 0;
+        }
+
+        .stat-label {
+            color: var(--secondary-color);
+            font-size: 1rem;
+        }
+
+        .filter-section {
+            margin-bottom: 2rem;
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .filter-button {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 4px;
+            background-color: white;
+            color: var(--secondary-color);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .filter-button:hover {
+            background-color: var(--accent-color);
+            color: white;
+        }
+
+        .filter-button.active {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        @media (max-width: 768px) {
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .chart-container {
+                height: 300px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="container">
+            <h1>Grenal: Análise Histórica dos Confrontos</h1>
+            <p>Análise detalhada dos confrontos entre Internacional e Grêmio no Campeonato Brasileiro</p>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="summary-stats">
+            <div class="stat-card">
+                <i class="fas fa-trophy" style="font-size: 2rem; color: var(--accent-color)"></i>
+                <div class="stat-value">248</div>
+                <div class="stat-label">Total de Grenais</div>
+            </div>
+            <div class="stat-card">
+                <i class="fas fa-futbol" style="font-size: 2rem; color: var(--inter-color)"></i>
+                <div class="stat-value">89</div>
+                <div class="stat-label">Vitórias do Internacional</div>
+            </div>
+            <div class="stat-card">
+                <i class="fas fa-futbol" style="font-size: 2rem; color: var(--gremio-color)"></i>
+                <div class="stat-value">85</div>
+                <div class="stat-label">Vitórias do Grêmio</div>
+            </div>
+            <div class="stat-card">
+                <i class="fas fa-handshake" style="font-size: 2rem; color: var(--secondary-color)"></i>
+                <div class="stat-value">74</div>
+                <div class="stat-label">Empates</div>
+            </div>
+        </div>
+
+        <div class="filter-section">
+            <button class="filter-button active">Todos os Anos</button>
+            <button class="filter-button">Últimos 5 Anos</button>
+            <button class="filter-button">Últimos 10 Anos</button>
+            <button class="filter-button">Século XXI</button>
+        </div>
+
+        <div class="dashboard-grid">
+            <div class="chart-card">
+                <div class="chart-header">
+                    <h3 class="chart-title">Artilheiros e Assistências</h3>
+                    <i class="fas fa-info-circle" title="Top artilheiros e assistentes nos confrontos"></i>
+                </div>
+                <div class="chart-container">
+                    <canvas id="artilheirosAssistenciasChart"></canvas>
+                </div>
+            </div>
+
+            <div class="chart-card">
+                <div class="chart-header">
+                    <h3 class="chart-title">Evolução do Desempenho</h3>
+                    <i class="fas fa-info-circle" title="Desempenho ao longo do tempo"></i>
+                </div>
+                <div class="chart-container">
+                    <canvas id="desempenhoCondicoesChart"></canvas>
+                </div>
+            </div>
+
+            <div class="chart-card">
+                <div class="chart-header">
+                    <h3 class="chart-title">Cartões por Equipe</h3>
+                    <i class="fas fa-info-circle" title="Distribuição de cartões amarelos e vermelhos"></i>
+                </div>
+                <div class="chart-container">
+                    <canvas id="cartoesChart"></canvas>
+                </div>
+            </div>
+
+            <div class="chart-card">
+                <div class="chart-header">
+                    <h3 class="chart-title">Comparação com Outros Clássicos</h3>
+                    <i class="fas fa-info-circle" title="Comparativo com outros grandes clássicos do futebol brasileiro"></i>
+                </div>
+                <div class="chart-container">
+                    <canvas id="comparacaoClassicosChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"></script>
+    <script>
+        // Configuração personalizada para todos os gráficos
+        Chart.defaults.global.defaultFontFamily = "'Segoe UI', 'Arial', sans-serif";
+        Chart.defaults.global.defaultFontSize = 14;
+        Chart.defaults.global.animation.duration = 1500;
+
+        // Cores personalizadas para os times
+        const interColor = '#ec0000';
+        const gremioColor = '#0d80bf';
+
+        // Gráfico de Artilheiros e Assistências
+        new Chart(document.getElementById('artilheirosAssistenciasChart').getContext('2d'), {
+            type: 'bar',
+            data: {
+                labels: ['Rafael Sóbis', 'D\'Alessandro', 'Renato Gaúcho', 'Luan', 'André'],
+                datasets: [
+                    {
+                        label: 'Gols',
+                        data: [12, 10, 9, 8, 7],
+                        backgroundColor: interColor,
+                        borderColor: interColor,
+                        borderWidth: 1
+                    },
+                    {
+                        label: 'Assistências',
+                        data: [8, 15, 6, 10, 5],
+                        backgroundColor: gremioColor,
+                        borderColor: gremioColor,
+                        borderWidth: 1
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
+                },
+                legend: {
+                    position: 'bottom'
+                }
+            }
+        });
+
+        // Gráfico de Desempenho
+        new Chart(document.getElementById('desempenhoCondicoesChart').getContext('2d'), {
+            type: 'line',
+            data: {
+                labels: ['2018', '2019', '2020', '2021', '2022', '2023'],
+                datasets: [
+                    {
+                        label: 'Internacional',
+                        data: [3, 4, 2, 3, 2, 3],
+                        borderColor: interColor,
+                        backgroundColor: 'rgba(236, 0, 0, 0.1)',
+                        fill: true
+                    },
+                    {
+                        label: 'Grêmio',
+                        data: [2, 3, 4, 2, 3, 2],
+                        borderColor: gremioColor,
+                        backgroundColor: 'rgba(13, 128, 191, 0.1)',
+                        fill: true
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                elements: {
+                    line: {
+                        tension: 0.4
+                    }
+                },
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
+                }
+            }
+        });
+
+        // Gráfico de Cartões
+        new Chart(document.getElementById('cartoesChart').getContext('2d'), {
+            type: 'bar',
+            data: {
+                labels: ['Cartões Amarelos', 'Cartões Vermelhos'],
+                datasets: [
+                    {
+                        label: 'Internacional',
+                        data: [156, 12],
+                        backgroundColor: interColor,
+                        borderColor: interColor,
+                        borderWidth: 1
+                    },
+                    {
+                        label: 'Grêmio',
+                        data: [148, 15],
+                        backgroundColor: gremioColor,
+                        borderColor: gremioColor,
+                        borderWidth: 1
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
+                }
+            }
+        });
+
+        // Gráfico de Comparação com Outros Clássicos
+        new Chart(document.getElementById('comparacaoClassicosChart').getContext('2d'), {
+            type: 'radar',
+            data: {
+                labels: ['Vitórias', 'Gols Marcados', 'Clean Sheets', 'Posse de Bola', 'Finalizações', 'Passes Certos'],
+                datasets: [
+                    {
+                        label: 'Internacional',
+                        data: [89, 320, 75, 52, 450, 85],
+                        backgroundColor: 'rgba(236, 0, 0, 0.2)',
+                        borderColor: interColor,
+                        pointBackgroundColor: interColor
+                    },
+                    {
+                        label: 'Grêmio',
+                        data: [85, 310, 70, 48, 425, 82],
+                        backgroundColor: 'rgba(13, 128, 191, 0.2)',
+                        borderColor: gremioColor,
+                        pointBackgroundColor: gremioColor
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scale: {
+                    ticks: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+        // Adicionar interatividade aos botões de filtro
+        document.querySelectorAll('.filter-button').forEach(button => {
+            button.addEventListener('click', function() {
+                document.querySelectorAll('.filter-button').forEach(btn => btn.classList.remove('active'));
+                this.classList.add('active');
+                // Aqui você pode adicionar lógica para filtrar os dados
+            });
+        });
+    </script>
+</body>
+</html>

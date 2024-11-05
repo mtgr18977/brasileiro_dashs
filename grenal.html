@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard de Análise dos Confrontos Diretos</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        .link-box {
+            margin: 20px;
+            padding: 20px;
+            background: #007BFF;
+            color: #fff;
+            border-radius: 8px;
+            text-decoration: none;
+            display: inline-block;
+            width: 250px;
+            font-size: 1.2em;
+        }
+        .link-box:hover {
+            background: #0056b3;
+        }
+        .chart-container {
+            position: relative;
+            margin: 40px auto;
+            height: 400px;
+            width: 80%;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Dashboard de Análise dos Confrontos Diretos e Desempenho no Campeonato Brasileiro</h1>
+	<p>Explore as diversas análises realizadas sobre os confrontos entre Internacional e Grêmio, assim como o desempenho geral no Campeonato Brasileiro.</p>
+
+        <!-- Estatísticas Adicionais -->
+        <div class="stats-section">
+            <h2>Artilheiros e Assistências</h2>
+            <div class="chart-container">
+                <canvas id="artilheirosAssistenciasChart"></canvas>
+            </div>
+        </div>
+
+        <div class="stats-section">
+            <h2>Desempenho em Diferentes Condições</h2>
+            <div class="chart-container">
+                <canvas id="desempenhoCondicoesChart"></canvas>
+            </div>
+        </div>
+
+        <div class="stats-section">
+            <h2>Cartões Amarelos e Vermelhos</h2>
+            <div class="chart-container">
+                <canvas id="cartoesChart"></canvas>
+            </div>
+        </div>
+
+        <div class="stats-section">
+            <h2>Comparação com Outros Clássicos</h2>
+            <div class="chart-container">
+                <canvas id="comparacaoClassicosChart"></canvas>
+            </div>
+        </div>
+
+        <div class="stats-section">
+            <h2>Histórico de Pênaltis</h2>
+            <div class="chart-container">
+                <canvas id="penaltisChart"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"></script>
+    <script>
+        // Gráficos usando Chart.js
+        var artilheirosCtx = document.getElementById('artilheirosAssistenciasChart').getContext('2d');
+        var artilheirosAssistenciasChart = new Chart(artilheirosCtx, {
+            type: 'bar',
+            data: {
+                labels: ['Jogador A', 'Jogador B', 'Jogador C'],
+                datasets: [
+                    {
+                        label: 'Gols Marcados',
+                        data: [10, 8, 6],
+                        backgroundColor: 'rgba(255, 99, 132, 0.7)'
+                    },
+                    {
+                        label: 'Assistências',
+                        data: [7, 5, 9],
+                        backgroundColor: 'rgba(54, 162, 235, 0.7)'
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                title: {
+                    display: true,
+                    text: 'Artilheiros e Assistências nos Confrontos'
+                }
+            }
+        });
+
+        var desempenhoCondicoesCtx = document.getElementById('desempenhoCondicoesChart').getContext('2d');
+        var desempenhoCondicoesChart = new Chart(desempenhoCondicoesCtx, {
+            type: 'line',
+            data: {
+                labels: ['Janeiro', 'Fevereiro', 'Março', 'Abril'],
+                datasets: [
+                    {
+                        label: 'Vitórias do Internacional',
+                        data: [3, 4, 2, 5],
+                        borderColor: 'rgba(0, 123, 255, 0.7)',
+                        fill: false
+                    },
+                    {
+                        label: 'Vitórias do Grêmio',
+                        data: [2, 3, 4, 4],
+                        borderColor: 'rgba(40, 167, 69, 0.7)',
+                        fill: false
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                title: {
+                    display: true,
+                    text: 'Desempenho em Diferentes Meses'
+                }
+            }
+        });
+
+        var cartoesCtx = document.getElementById('cartoesChart').getContext('2d');
+        var cartoesChart = new Chart(cartoesCtx, {
+            type: 'bar',
+            data: {
+                labels: ['Cartões Amarelos - Internacional', 'Cartões Amarelos - Grêmio', 'Cartões Vermelhos - Internacional', 'Cartões Vermelhos - Grêmio'],
+                datasets: [
+                    {
+                        label: 'Cartões Recebidos',
+                        data: [15, 18, 3, 5],
+                        backgroundColor: [
+                            'rgba(255, 206, 86, 0.7)',
+                            'rgba(75, 192, 192, 0.7)',
+                            'rgba(255, 99, 132, 0.7)',
+                            'rgba(153, 102, 255, 0.7)'
+                        ]
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                title: {
+                    display: true,
+                    text: 'Cartões Amarelos e Vermelhos'
+                },
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
+                }
+            }
+        });
+
+        var comparacaoClassicosCtx = document.getElementById('comparacaoClassicosChart').getContext('2d');
+        var comparacaoClassicosChart = new Chart(comparacaoClassicosCtx, {
+            type: 'radar',
+            data: {
+                labels: ['Internacional vs Grêmio', 'Internacional vs Palmeiras', 'Grêmio vs Flamengo'],
+                datasets: [
+                    {
+                        label: 'Vitórias do Internacional',
+                        data: [10, 6, 4],
+                        backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                        borderColor: 'rgba(255, 99, 132, 1)',
+                        pointBackgroundColor: 'rgba(255, 99, 132, 1)'
+                    },
+                    {
+                        label: 'Vitórias do Grêmio',
+                        data: [8, 4, 7],
+                        backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                        borderColor: 'rgba(54, 162, 235, 1)',
+                        pointBackgroundColor: 'rgba(54, 162, 235, 1)'
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                title: {
+                    display: true,
+                    text: 'Comparação com Outros Clássicos'
+                }
+            }
+        });
+
+        var penaltisCtx = document.getElementById('penaltisChart').getContext('2d');
+        var penaltisChart = new Chart(penaltisCtx, {
+            type: 'bar',
+            data: {
+                labels: ['Pênaltis Convertidos - Internacional', 'Pênaltis Convertidos - Grêmio', 'Pênaltis Perdidos - Internacional', 'Pênaltis Perdidos - Grêmio'],
+                datasets: [
+                    {
+                        label: 'Pênaltis',
+                        data: [5, 7, 2, 3],
+                        backgroundColor: [
+                            'rgba(255, 159, 64, 0.7)',
+                            'rgba(54, 162, 235, 0.7)',
+                            'rgba(255, 99, 132, 0.7)',
+                            'rgba(153, 102, 255, 0.7)'
+                        ]
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                title: {
+                    display: true,
+                    text: 'Histórico de Pênaltis'
+                },
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
+                }
+            }
+        });
+    </script>
+</body>
+</html>

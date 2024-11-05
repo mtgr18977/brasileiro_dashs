@@ -1,0 +1,152 @@
+import React from 'react';
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { TrendingUp, Users, Frown, Goal, Shield, ThumbsUp, Home, UserX, Plane, UserMinus, HandshakeIcon } from 'lucide-react';
+
+const ComparisonData = [
+  {
+    category: 'Vitórias Visitante',
+    'Série Histórica': 23.85,
+    'Temporada 2020': 32.04,
+  },
+  {
+    category: 'Empates Visitante',
+    'Série Histórica': 26.42,
+    'Temporada 2020': 30.39,
+  },
+  {
+    category: 'Derrotas Visitante',
+    'Série Histórica': 49.73,
+    'Temporada 2020': 37.57,
+  },
+];
+
+const StatBox = ({ icon: Icon, title, value, className = "" }) => (
+  <Card className={`${className}`}>
+    <CardContent className="pt-6">
+      <div className="flex flex-col items-center space-y-2">
+        <Icon className="w-8 h-8 text-blue-500" />
+        <CardTitle className="text-sm text-center">{title}</CardTitle>
+        <p className="text-2xl font-bold text-blue-600">{value}</p>
+      </div>
+    </CardContent>
+  </Card>
+);
+
+const VisitorPerformanceDashboard = () => {
+  return (
+    <div className="container mx-auto p-6 max-w-6xl">
+      <div className="space-y-8">
+        <div>
+          <h1 className="text-3xl font-bold text-blue-600 mb-4">
+            Desempenho dos Visitantes: Série Histórica vs Temporada 2020
+          </h1>
+          <p className="text-gray-600">
+            Este relatório apresenta uma comparação detalhada do desempenho dos times visitantes no 
+            Campeonato Brasileiro entre a série histórica (2003-2023) e a temporada específica de 2020.
+          </p>
+        </div>
+
+        <div className="space-y-6">
+          <h2 className="text-2xl font-semibold text-blue-600">Estatísticas Comparativas</h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <StatBox 
+              icon={TrendingUp}
+              title="Vitórias dos Visitantes"
+              value="+8.19% em 2020"
+            />
+            <StatBox 
+              icon={HandshakeIcon}
+              title="Empates dos Visitantes"
+              value="+3.97% em 2020"
+            />
+            <StatBox 
+              icon={Frown}
+              title="Derrotas dos Visitantes"
+              value="-12.16% em 2020"
+            />
+            <StatBox 
+              icon={Goal}
+              title="Gols Médios Marcados"
+              value="1.12 gols/jogo"
+            />
+            <StatBox 
+              icon={Shield}
+              title="Gols Médios Sofridos"
+              value="1.35 gols/jogo"
+            />
+            <StatBox 
+              icon={ThumbsUp}
+              title="Taxa de Invencibilidade"
+              value="+5.00% em 2020"
+            />
+          </div>
+        </div>
+
+        <div className="space-y-6">
+          <h2 className="text-2xl font-semibold text-blue-600">Impacto da Presença de Torcida</h2>
+          <p className="text-gray-600">
+            Comparações entre o desempenho dos times quando havia torcida presente (série histórica) 
+            e quando os jogos foram realizados sem torcida (2020):
+          </p>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <StatBox 
+              icon={Home}
+              title="Vitórias Mandantes (Com Torcida)"
+              value="49.92%"
+            />
+            <StatBox 
+              icon={UserX}
+              title="Vitórias Mandantes (Sem Torcida)"
+              value="43.66%"
+            />
+            <StatBox 
+              icon={Plane}
+              title="Vitórias Visitantes (Com Torcida)"
+              value="23.74%"
+            />
+            <StatBox 
+              icon={UserMinus}
+              title="Vitórias Visitantes (Sem Torcida)"
+              value="27.24%"
+            />
+            <StatBox 
+              icon={HandshakeIcon}
+              title="Empates (Com Torcida)"
+              value="26.34%"
+            />
+            <StatBox 
+              icon={HandshakeIcon}
+              title="Empates (Sem Torcida)"
+              value="29.10%"
+            />
+          </div>
+        </div>
+
+        <Card className="p-6">
+          <CardHeader>
+            <CardTitle>Comparação do Desempenho dos Visitantes</CardTitle>
+            <CardDescription>Série Histórica vs Temporada 2020</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="h-96">
+              <ResponsiveContainer width="100%" height="100%">
+                <BarChart data={ComparisonData}>
+                  <CartesianGrid strokeDasharray="3 3" />
+                  <XAxis dataKey="category" />
+                  <YAxis tickFormatter={(value) => `${value}%`} />
+                  <Tooltip formatter={(value) => `${value}%`} />
+                  <Legend />
+                  <Bar dataKey="Série Histórica" fill="#3B82F6" />
+                  <Bar dataKey="Temporada 2020" fill="#22C55E" />
+                </BarChart>
+              </ResponsiveContainer>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+    </div>
+  );
+};
+
+export default VisitorPerformanceDashboard;
